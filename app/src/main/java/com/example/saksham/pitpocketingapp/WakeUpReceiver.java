@@ -16,10 +16,14 @@ import static android.content.Context.KEYGUARD_SERVICE;
 public class WakeUpReceiver extends BroadcastReceiver {
 
     public static final String TAG = "WakeUpReceiver";
-    private final Context context;
+    private Context context ;
     private OnWakeUp onWakeUp;
     KeyguardManager km;
     Thread fiveSecondThread;
+
+    public WakeUpReceiver(){
+
+    }
 
     public WakeUpReceiver(Context context, OnWakeUp onWakeUp) {
 
@@ -35,6 +39,8 @@ public class WakeUpReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, Intent intent) {
+
+        Toast.makeText(context, "HELLO FROM WORLD", Toast.LENGTH_SHORT).show();
 
         //checks for keyguard is active or not
 

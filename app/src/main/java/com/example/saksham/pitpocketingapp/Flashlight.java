@@ -5,6 +5,8 @@ import android.graphics.Camera;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 /**
  * Created by saksham on 7/30/2017.
  */
@@ -17,6 +19,7 @@ public class Flashlight {
     Blinker blinker;
     boolean isInitialise = false;
     public static final String TAG = "FlashLight";
+    static ArrayList<Blinker> threadsFlashlight = new ArrayList<>();
 
     public Flashlight(Context context) {
 
@@ -24,12 +27,26 @@ public class Flashlight {
 
     public void startFlash() {
 
+        Log.d(TAG, "startFlash: list of threads " + threadsFlashlight);
+        if (threadsFlashlight.size() > 1) {
+            //delete previous threads
+            for (int i = 0; i < threadsFlashlight.size() - 1; i++) {
+
+                threadsFlashlight.get(i).cancel(true);
+                Log.d(TAG, "startFlash: cancelling threads");
+            }
+        }
+
         camera = android.hardware.Camera.open();
-        Log.d(TAG, "startFlash: ");
+        Log.d(TAG, "startFlash:1 " + params);
         params = camera.getParameters();
+        Log.d(TAG, "startFlash:2 " + params);
         blinker = new Blinker();
         blinker.execute();
         isInitialise = true;
+        threadsFlashlight.add(blinker);
+        Log.d(TAG, "startFlash: "+threadsFlashlight.size()+"size");
+
     }
 
     public void stopFlash() {
@@ -37,6 +54,7 @@ public class Flashlight {
         isInitialise = false;
         blinker.cancel(true);
         camera.release();
+        Log.d(TAG, "stopFlash3: " + params);
 
     }
 
@@ -81,10 +99,11 @@ public class Flashlight {
             try {
                 camera.setParameters(params);
             } catch (Exception e) {
-                Log.d(TAG, "isOn: ------------------" + e.getMessage());
+                Log.d(TAG, "isOn: " + params + "inside try-catch thread id" + Thread.currentThread().toString());
+                Log.d(TAG, "isOn: ------------------" + e.getMessage() + "," + e.getLocalizedMessage() + "," + e.toString());
             }
 
-            Log.d(TAG, "isOn: " + params.toString());
+            /*Log.d(TAG, "isOn: " + params.toString());*/
 
             return !isFlashOn;
         }

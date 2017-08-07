@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (flashlight.isInitialise && backgroundAudio .isInitialise) {
+                if (flashlight.isInitialise && backgroundAudio.isInitialise) {
 
                     backgroundAudio.stopAudio();
                     flashlight.stopFlash();
