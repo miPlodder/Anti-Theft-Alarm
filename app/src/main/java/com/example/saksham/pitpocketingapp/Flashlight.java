@@ -17,7 +17,7 @@ public class Flashlight {
     android.hardware.Camera.Parameters params;
     int delay = 100; //millisec
     Blinker blinker;
-    boolean isInitialise = false;
+    static boolean isInitialise = false;
     public static final String TAG = "FlashLight";
     static ArrayList<Blinker> threadsFlashlight = new ArrayList<>();
 
@@ -43,7 +43,6 @@ public class Flashlight {
         Log.d(TAG, "startFlash:2 " + params);
         blinker = new Blinker();
         blinker.execute();
-        isInitialise = true;
         threadsFlashlight.add(blinker);
         Log.d(TAG, "startFlash: "+threadsFlashlight.size()+"size");
 
@@ -52,13 +51,14 @@ public class Flashlight {
     public void stopFlash() {
 
         isInitialise = false;
-        blinker.cancel(true);
         camera.release();
+        blinker.cancel(true);
         Log.d(TAG, "stopFlash3: " + params);
 
     }
 
-    public boolean isInitialised() {
+    static public boolean isInitialised()
+    {
         return isInitialise;
     }
 
@@ -90,7 +90,6 @@ public class Flashlight {
             if (isFlashOn) {
 
                 params.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_TORCH);
-
             } else {
 
                 params.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_OFF);
@@ -107,9 +106,5 @@ public class Flashlight {
 
             return !isFlashOn;
         }
-
-
     }
-
-
 }

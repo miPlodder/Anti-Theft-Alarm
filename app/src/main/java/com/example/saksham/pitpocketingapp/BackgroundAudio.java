@@ -13,21 +13,21 @@ public class BackgroundAudio {
 
     Context context;
     AudioManager am;
-    MediaPlayer mp;
+    static MediaPlayer mp;
     public static final String TAG = "BackgroundAudio";
-    boolean isInitialise = false;
+    static boolean isInitialise = false;
 
 
     public BackgroundAudio(Context context) {
 
         this.context = context;
         am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-
+        mp = MediaPlayer.create(context, R.raw.music);
     }
 
     public void startAudio() {
 
-        mp = MediaPlayer.create(context, R.raw.music);
+
         am.setStreamVolume(AudioManager.STREAM_MUSIC,
                 3, //am.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
                 1);
@@ -41,10 +41,11 @@ public class BackgroundAudio {
         isInitialise = false;
         mp.stop();
         mp.release();
+        mp = MediaPlayer.create(context, R.raw.music);
 
     }
 
-    public boolean isInitialised() {
+    public static boolean isInitialised() {
         return isInitialise;
     }
 

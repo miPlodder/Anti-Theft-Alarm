@@ -43,24 +43,38 @@ public class MainActivity extends AppCompatActivity {
         params = camera.getParameters();
 
         i = new IntentFilter();
-        flashlight = new Flashlight(this);
-        backgroundAudio = new BackgroundAudio(MainActivity.this);
+
+
         btnStart = (Button) findViewById(R.id.btnStart);
         btnStop = (Button) findViewById(R.id.btnStop);
+
+        backgroundAudio = new BackgroundAudio(MainActivity.this);
+        flashlight = new Flashlight(MainActivity.this);
+
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
+                flashlight.isInitialise = true;
+                backgroundAudio.isInitialise = true;
                 Toast.makeText(MainActivity.this, "Lock your phone in 5 seconds ", Toast.LENGTH_SHORT).show();
+
+                //pending work here //todo
+
 
                 mReceiver = new WakeUpReceiver(MainActivity.this, new WakeUpReceiver.OnWakeUp() {
                     @Override
                     public void setOnWakeUp() {
 
-                        backgroundAudio.startAudio();
-                        flashlight.startFlash();
+                        if (flashlight.isInitialise && backgroundAudio.isInitialise) {
+
+                            backgroundAudio.startAudio();
+                            //flashlight.startFlash();
+                        } else {
+                            Log.d(TAG, "setOnWakeUp: do nothing");
+                        }
                     }
                 });
 
@@ -82,8 +96,15 @@ public class MainActivity extends AppCompatActivity {
 
                 if (flashlight.isInitialise && backgroundAudio.isInitialise) {
 
-                    backgroundAudio.stopAudio();
-                    flashlight.stopFlash();
+                    //flashlight.isInitialise = false;
+                    backgroundAudio.isInitialise = false;
+
+                    if (backgroundAudio != null && flashlight != null) {
+
+                        backgroundAudio.stopAudio();
+                        //flashlight.stopFlash();
+
+                    }
                 }
             }
         });

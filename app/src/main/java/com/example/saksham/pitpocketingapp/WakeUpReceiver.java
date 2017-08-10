@@ -48,16 +48,13 @@ public class WakeUpReceiver extends BroadcastReceiver {
 
             if (fiveSecondThread != null) {
                 //destroying the thread when phone is unlocked
-                Log.d(TAG, "onReceive: inside if fivesecondthreaf");
                 fiveSecondThread.interrupt();
             }
             Toast.makeText(context, "Welcome user", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "checks if the user is active or not");
         }
 
         if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
 
-            Log.d(TAG, "onReceive: Screen On");
             km = (KeyguardManager) context.getSystemService(KEYGUARD_SERVICE);
 
             fiveSecondThread = new Thread(new Runnable() {
@@ -65,16 +62,17 @@ public class WakeUpReceiver extends BroadcastReceiver {
                 public void run() {
 
                     try {
+
                         Thread.sleep(5000);
                         if (km.inKeyguardRestrictedInputMode()) {
 
                             //screen is locked
-                            Log.d(TAG, "run: SCREEN IS LOCKED inside if");
+                            Log.d(TAG, "run: SCREEN IS LOCKED");
                             onWakeUp.setOnWakeUp();
 
                         } else {
 
-                            Log.d(TAG, "onReceive: inside else");
+                            Log.d(TAG, "onReceive: SCREEN UNLOCKED");
                             //this case will be handled by ACTION_SCREEN_ON intent
                         }
                     } catch (InterruptedException e)
@@ -92,6 +90,7 @@ public class WakeUpReceiver extends BroadcastReceiver {
             if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
 
                 Log.d(TAG, "onReceive: Screen Off");
+
             }
         }
     }
