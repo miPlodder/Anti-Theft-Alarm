@@ -20,8 +20,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.security.Policy;
-
 public class MainActivity extends AppCompatActivity {
 
     Button btnStart, btnStop;
@@ -43,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         camera = android.hardware.Camera.open();
