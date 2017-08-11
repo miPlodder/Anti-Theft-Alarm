@@ -16,49 +16,62 @@ public class Flashlight {
     android.hardware.Camera camera;
     android.hardware.Camera.Parameters params;
     int delay = 100; //millisec
-    Blinker blinker;
     static boolean isInitialise = false;
     public static final String TAG = "FlashLight";
-    static ArrayList<Blinker> threadsFlashlight = new ArrayList<>();
+    ArrayList<Blinker> al;
 
     public Flashlight(Context context) {
+
+        //we should never open camera again and again
+        //like mediaplayer should be created only once
+        camera = android.hardware.Camera.open();
+        params = camera.getParameters();
+        al = new ArrayList<>();
 
     }
 
     public void startFlash() {
 
-        Log.d(TAG, "startFlash: list of threads " + threadsFlashlight);
-        if (threadsFlashlight.size() > 1) {
-            //delete previous threads
-            for (int i = 0; i < threadsFlashlight.size() - 1; i++) {
+        isInitialise = true;
+        if (al.size() != 0) {
+            if (!(AsyncTask.Status.RUNNING == al.get(0).getStatus())) {
 
-                threadsFlashlight.get(i).cancel(true);
-                Log.d(TAG, "startFlash: cancelling threads");
+                //not running async task
+                al.get(0).execute();
+                Log.d(TAG, "not running async task");
+            } else {
+                //running start
             }
+        } else {
+
+            //creating
+            Log.d(TAG, "running asynctask and inside else");
+            al.add(new Blinker());
+            startFlash();
+
         }
-
-        camera = android.hardware.Camera.open();
-        Log.d(TAG, "startFlash:1 " + params);
-        params = camera.getParameters();
-        Log.d(TAG, "startFlash:2 " + params);
-        blinker = new Blinker();
-        blinker.execute();
-        threadsFlashlight.add(blinker);
-        Log.d(TAG, "startFlash: "+threadsFlashlight.size()+"size");
-
     }
+
 
     public void stopFlash() {
 
+        Log.d(TAG, "stopFlash: insdide stopflash");
         isInitialise = false;
-        camera.release();
-        blinker.cancel(true);
-        Log.d(TAG, "stopFlash3: " + params);
+        if (al.size() != 0) {
 
+            al.get(0).cancel(true);
+            al.remove(0);
+            Log.d(TAG, "inside stop if condition, size->"+al.size());
+            params.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_OFF);
+            camera.setParameters(params);
+            camera.stopPreview();
+        } else {
+
+            Log.d(TAG, "inside stop else condition");
+        }
     }
 
-    static public boolean isInitialised()
-    {
+    static public boolean isInitialised() {
         return isInitialise;
     }
 
@@ -77,6 +90,7 @@ public class Flashlight {
                 try {
                     Thread.sleep(delay);
                 } catch (InterruptedException e) {
+
                     Log.d(TAG, "InterruptedException " + e.getMessage());
                 }
 
@@ -101,8 +115,6 @@ public class Flashlight {
                 Log.d(TAG, "isOn: " + params + "inside try-catch thread id" + Thread.currentThread().toString());
                 Log.d(TAG, "isOn: ------------------" + e.getMessage() + "," + e.getLocalizedMessage() + "," + e.toString());
             }
-
-            /*Log.d(TAG, "isOn: " + params.toString());*/
 
             return !isFlashOn;
         }

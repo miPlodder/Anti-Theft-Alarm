@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     BackgroundAudio backgroundAudio;
     Flashlight flashlight;
     IntentFilter i;
+    boolean toggle = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         params = camera.getParameters();
 
         i = new IntentFilter();
-
 
         btnStart = (Button) findViewById(R.id.btnStart);
         btnStop = (Button) findViewById(R.id.btnStop);
@@ -64,29 +64,32 @@ public class MainActivity extends AppCompatActivity {
                 //pending work here //todo
 
 
-                mReceiver = new WakeUpReceiver(MainActivity.this, new WakeUpReceiver.OnWakeUp() {
-                    @Override
-                    public void setOnWakeUp() {
+                if (toggle) {
 
-                        if (flashlight.isInitialise && backgroundAudio.isInitialise) {
+                    mReceiver = new WakeUpReceiver(MainActivity.this, new WakeUpReceiver.OnWakeUp() {
+                        @Override
+                        public void setOnWakeUp() {
 
-                            backgroundAudio.startAudio();
-                            //flashlight.startFlash();
-                        } else {
-                            Log.d(TAG, "setOnWakeUp: do nothing");
+                            if (flashlight.isInitialise && backgroundAudio.isInitialise) {
+
+                                backgroundAudio.startAudio();
+                                flashlight.startFlash();
+                            } else {
+                                Log.d(TAG, "setOnWakeUp: do nothing");
+                            }
                         }
-                    }
-                });
+                    });
 
-                //registering the broadcast receiver here
+                    //registering the broadcast receiver here
 
-                i.addAction(Intent.ACTION_SCREEN_OFF);
-                i.addAction(Intent.ACTION_SCREEN_ON);
+                    i.addAction(Intent.ACTION_SCREEN_OFF);
+                    i.addAction(Intent.ACTION_SCREEN_ON);
 
-                //checks that the keyguard is active or not
-                i.addAction(Intent.ACTION_USER_PRESENT);
-                registerReceiver(mReceiver, i);
-
+                    //checks that the keyguard is active or not
+                    i.addAction(Intent.ACTION_USER_PRESENT);
+                    registerReceiver(mReceiver, i);
+                    toggle = false;
+                }
             }
         });
 
@@ -96,14 +99,14 @@ public class MainActivity extends AppCompatActivity {
 
                 if (flashlight.isInitialise && backgroundAudio.isInitialise) {
 
-                    //flashlight.isInitialise = false;
+                    flashlight.isInitialise = false;
                     backgroundAudio.isInitialise = false;
 
                     if (backgroundAudio != null && flashlight != null) {
 
+                        Log.d(TAG, "onClick: inside if if");
                         backgroundAudio.stopAudio();
-                        //flashlight.stopFlash();
-
+                        flashlight.stopFlash();
                     }
                 }
             }
@@ -115,5 +118,6 @@ public class MainActivity extends AppCompatActivity {
 
         super.onDestroy();
         unregisterReceiver(mReceiver);
+        backgroundAudio.destroyInstance();
     }
 }

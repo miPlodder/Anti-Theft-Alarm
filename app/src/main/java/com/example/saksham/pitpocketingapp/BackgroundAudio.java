@@ -28,25 +28,35 @@ public class BackgroundAudio {
     public void startAudio() {
 
 
-        am.setStreamVolume(AudioManager.STREAM_MUSIC,
-                3, //am.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
-                1);
 
-        mp.start();
-        isInitialise = true;
+            am.setStreamVolume(AudioManager.STREAM_MUSIC,
+                    3, //am.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+                    1);
+
+            Log.d(TAG, "startAudio: else playing media player");
+
+            mp.start();
+            isInitialise = true;
+
     }
 
     public void stopAudio() {
 
         isInitialise = false;
+
         mp.stop();
         mp.release();
         mp = MediaPlayer.create(context, R.raw.music);
-
     }
 
     public static boolean isInitialised() {
         return isInitialise;
+    }
+
+    public void destroyInstance() {
+
+        mp.release();
+
     }
 
 }
