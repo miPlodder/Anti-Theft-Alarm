@@ -9,10 +9,13 @@ import android.graphics.Camera;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.view.menu.ActionMenuItemView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     BackgroundAudio backgroundAudio;
     Flashlight flashlight;
     IntentFilter i;
+    ActionBar actionBar;
     boolean toggle = true;
 
     @Override
@@ -40,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         camera = android.hardware.Camera.open();
         params = camera.getParameters();
 
@@ -111,6 +117,31 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_main_activity, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        switch (item.getItemId()) {
+
+            case R.id.setting:
+                Toast.makeText(this,"Setting clicked", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.About:
+                break;
+            case R.id.feedback:
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

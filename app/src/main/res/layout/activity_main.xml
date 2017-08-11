@@ -4,19 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/gradient_demo"
+    android:orientation="vertical"
+    android:padding="50dp"
     tools:context="com.example.saksham.pitpocketingapp.MainActivity">
 
     <Button
         android:id="@+id/btnStart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start" />
+        android:layout_marginTop="30dp"
+        android:background="@drawable/round_button"
+        android:text="Start"
+        android:textColor="#FFF" />
 
     <Button
         android:id="@+id/btnStop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Stop" />
+        android:layout_marginTop="150dp"
+        android:background="@drawable/round_button"
+        android:text="Stop"
+        android:textColor="#FFF" />
 </LinearLayout>
