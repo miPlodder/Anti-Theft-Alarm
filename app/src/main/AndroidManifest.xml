@@ -4,7 +4,8 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
     <uses-feature android:name="android.hardware.camera" />
 
     <application
@@ -31,12 +32,27 @@
             </intent-filter>
         </receiver>
 
-      <!--  <activity android:name=".SplashActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <receiver
+            android:name="MyAdminReceiver"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/admin" />
+
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
-        </activity>-->
+
+        </receiver>
+
+        <!--  <activity android:name=".SplashActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+              <intent-filter>
+                  <action android:name="android.intent.action.MAIN" />
+                  <category android:name="android.intent.category.LAUNCHER" />
+              </intent-filter>
+          </activity>-->
+
     </application>
 
 </manifest>

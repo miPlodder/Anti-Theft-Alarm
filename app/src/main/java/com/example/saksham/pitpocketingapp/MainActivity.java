@@ -1,26 +1,21 @@
 package com.example.saksham.pitpocketingapp;
 
-import android.app.KeyguardManager;
 import android.app.admin.DevicePolicyManager;
-import android.content.Context;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Camera;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.menu.ActionMenuItemView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -41,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     boolean toggle = true; //toggle is used to register the broadcast receiver once only
     CountDownTimer waitTime;
     MySensorManager proximitySensor;
+    private DevicePolicyManager mDevicePolicyManager;
+    private ComponentName mComponentName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
 
         backgroundAudio = new BackgroundAudio(MainActivity.this);
         flashlight = new Flashlight(MainActivity.this);
+
+        mDevicePolicyManager = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
+        mComponentName = new ComponentName(this, MyAdminReceiver.class);
 
         //doing registering of WakeUpReceiver work here
         mReceiver = new WakeUpReceiver(MainActivity.this, new WakeUpReceiver.OnWakeUp() {
@@ -139,12 +139,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mComponentName);
+        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "description");
+        startActivityForResult(intent, 15);
+
         //used to turn screen off
         waitTime = new CountDownTimer(15000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 //TODO add progressbar here
-                Log.d(TAG, "onTick: "+millisUntilFinished);
+                Log.d(TAG, "onTick: " + millisUntilFinished);
 
             }
 
@@ -153,7 +159,14 @@ public class MainActivity extends AppCompatActivity {
 
                 //screen turn off work to be done here
                 //changes the system settings timeout for screen to 15 seconds(lowest possible)
-                Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 15000);
+                //Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 15000);
+                boolean isAdmin = mDevicePolicyManager.isAdminActive(mComponentName);
+                if (isAdmin) {
+                    mDevicePolicyManager.lockNow();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Not Registered as admin", Toast.LENGTH_SHORT).show();
+                }
+
                 proximitySensor.startProximity();
                 Log.d(TAG, "onFinish: ");
 
@@ -193,5 +206,15 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         unregisterReceiver(mReceiver);
         backgroundAudio.destroyInstance();
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 15) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(getApplicationContext(), "Registered As Admin", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Failed to register as Admin", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
