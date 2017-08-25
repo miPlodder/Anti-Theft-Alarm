@@ -9,6 +9,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Display;
 import android.widget.Toast;
 
 import static android.content.Context.KEYGUARD_SERVICE;
@@ -40,12 +41,14 @@ public class WakeUpReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
 
-        Toast.makeText(context, "HELLO FROM WORLD", Toast.LENGTH_SHORT).show();
-
+        Log.d(TAG, "onReceive: ");
+        //Toast.makeText(context, "HELLO FROM GUYS", Toast.LENGTH_SHORT).show();
+        //Log.d(TAG, "onReceive: again");
         //checks for keyguard is active or not
 
         if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
 
+            Log.d(TAG, "onReceive: User Present");
             if (fiveSecondThread != null) {
                 //destroying the thread when phone is unlocked
                 fiveSecondThread.interrupt();
@@ -53,8 +56,10 @@ public class WakeUpReceiver extends BroadcastReceiver {
             Toast.makeText(context, "Welcome user", Toast.LENGTH_SHORT).show();
         }
 
+        //TODO check for proximity sensor
         if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
 
+            Log.d(TAG, "onReceive: Screen On");
             km = (KeyguardManager) context.getSystemService(KEYGUARD_SERVICE);
 
             fiveSecondThread = new Thread(new Runnable() {
@@ -90,7 +95,15 @@ public class WakeUpReceiver extends BroadcastReceiver {
             if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
 
                 Log.d(TAG, "onReceive: Screen Off");
-
+                //register sensor manager here
+                //proxmity work done here
+               /*TODO work here on sensor manager waittime -> infinity
+                *
+                * MySensorManager sm = new MySensorManager(context);
+                sm.startProximity();
+                *
+                *
+                */
             }
         }
     }
