@@ -7,7 +7,7 @@
     android:background="@drawable/gradient_demo"
     android:orientation="vertical"
     android:padding="50dp"
-    tools:context="com.example.saksham.pitpocketingapp.MainActivity">
+    tools:context="com.example.saksham.pitpocketingapp.Activities.MainActivity">
 
     <Button
         android:id="@+id/btnStart"

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--deviceAdmin on off, wakeup time, voice volume-->
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="deviceAdmin"
+        android:summary="@string/device_admin"
+        android:title="Device Admin Mode" />
+
+    <ListPreference
+        android:defaultValue="3"
+        android:dialogTitle="Audio Volume"
+        android:entries="@array/volumeArrayIndex"
+        android:entryValues="@array/volumeArray"
+        android:key="audioVolume"
+        android:summary="@string/audio_vol"
+        android:title="Audio Volume" />
+
+    <ListPreference
+        android:defaultValue="15"
+        android:dialogTitle="Wake Up Time"
+        android:entries="@array/wakeTimeIndex"
+        android:entryValues="@array/wakeTimeArray"
+        android:key="wakeTime"
+        android:summary="@string/wake_up_timer"
+        android:title="Wake Up Time"/>
+
+</PreferenceScreen>

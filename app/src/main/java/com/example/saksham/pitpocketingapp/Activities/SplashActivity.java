@@ -1,8 +1,10 @@
-package com.example.saksham.pitpocketingapp;
+package com.example.saksham.pitpocketingapp.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.saksham.pitpocketingapp.R;
 
 import gr.net.maroulis.library.EasySplashScreen;
 

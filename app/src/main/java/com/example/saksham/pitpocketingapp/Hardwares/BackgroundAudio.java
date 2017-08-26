@@ -1,9 +1,11 @@
-package com.example.saksham.pitpocketingapp;
+package com.example.saksham.pitpocketingapp.Hardwares;
 
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.util.Log;
+
+import com.example.saksham.pitpocketingapp.R;
 
 /**
  * Created by saksham on 7/30/2017.
@@ -15,7 +17,7 @@ public class BackgroundAudio {
     AudioManager am;
     static MediaPlayer mp;
     public static final String TAG = "BackgroundAudio";
-    static boolean isInitialise = false;
+    public static boolean isInitialise = false;
 
 
     public BackgroundAudio(Context context) {

@@ -1,4 +1,4 @@
-package com.example.saksham.pitpocketingapp;
+package com.example.saksham.pitpocketingapp.Hardwares;
 
 import android.content.Context;
 import android.graphics.Camera;
@@ -16,7 +16,7 @@ public class Flashlight {
     android.hardware.Camera camera;
     android.hardware.Camera.Parameters params;
     int delay = 100; //millisec
-    static boolean isInitialise = false;
+    public static boolean isInitialise = false;
     public static final String TAG = "FlashLight";
     ArrayList<Blinker> al;
 

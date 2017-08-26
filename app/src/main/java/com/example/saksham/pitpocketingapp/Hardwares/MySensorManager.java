@@ -1,4 +1,4 @@
-package com.example.saksham.pitpocketingapp;
+package com.example.saksham.pitpocketingapp.Hardwares;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -20,7 +20,7 @@ public class MySensorManager {
     public static final String TAG = "MySensorManager";
     onWakeUp onWakeUp;
 
-    interface onWakeUp {
+    public interface onWakeUp {
 
         void setOnWakeUp();
     }

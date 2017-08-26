@@ -1,4 +1,4 @@
-package com.example.saksham.pitpocketingapp;
+package com.example.saksham.pitpocketingapp.Activities;
 
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
@@ -8,7 +8,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.os.PowerManager;
-import android.provider.Settings;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +17,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.saksham.pitpocketingapp.Hardwares.BackgroundAudio;
+import com.example.saksham.pitpocketingapp.Hardwares.Flashlight;
+import com.example.saksham.pitpocketingapp.BR.MyAdminReceiver;
+import com.example.saksham.pitpocketingapp.Hardwares.MySensorManager;
+import com.example.saksham.pitpocketingapp.R;
+import com.example.saksham.pitpocketingapp.BR.WakeUpReceiver;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -189,7 +195,10 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.setting:
-                Toast.makeText(this, "Setting clicked", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(
+                        this,
+                        SettingActivity.class
+                ));
                 break;
             case R.id.About:
                 break;

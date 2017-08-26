@@ -1,4 +1,4 @@
-package com.example.saksham.pitpocketingapp;
+package com.example.saksham.pitpocketingapp.BR;
 
 import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
@@ -33,7 +33,7 @@ public class WakeUpReceiver extends BroadcastReceiver {
 
     }
 
-    interface OnWakeUp {
+    public interface OnWakeUp {
 
         void setOnWakeUp();
     }
