@@ -15,7 +15,8 @@ public class Flashlight {
 
     android.hardware.Camera camera;
     android.hardware.Camera.Parameters params;
-    int delay = 100; //millisec
+    int delay = 100;      // time is always in MILLISECONDS
+
     public static boolean isInitialise = false;
     public static final String TAG = "FlashLight";
     ArrayList<Blinker> al;
@@ -23,7 +24,7 @@ public class Flashlight {
     public Flashlight(Context context) {
 
         //we should never open camera again and again
-        //like mediaplayer should be created only once
+        //unlike mediaplayer which has to be created again, after stopping it
         camera = android.hardware.Camera.open();
         params = camera.getParameters();
         al = new ArrayList<>();
@@ -39,6 +40,7 @@ public class Flashlight {
                 //not running async task
                 al.get(0).execute();
                 Log.d(TAG, "not running async task");
+
             } else {
                 //running start
             }

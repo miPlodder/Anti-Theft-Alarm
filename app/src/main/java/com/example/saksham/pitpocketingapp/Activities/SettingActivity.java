@@ -13,8 +13,10 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_setting);
 
-       getFragmentManager().beginTransaction()
-                .replace(android.R.id.content,new SettingsFragment()).commit();
+        getFragmentManager().beginTransaction()
+                .replace(android.R.id.content,
+                        new SettingsFragment())
+                .commit();
 
     }
 }

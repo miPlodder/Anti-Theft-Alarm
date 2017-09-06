@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#DF08E8</color> <!--TOOLBAR COLOR-->
-    <color name="colorPrimaryDark">#DF08E8</color> <!--TOP TOOLBAR COLOR-->
+    <color name="colorPrimary">#FF7C9D</color> <!--TOOLBAR COLOR-->
+    <color name="colorPrimaryDark">#FF7C9D</color> <!--TOP TOOLBAR COLOR-->
     <color name="colorAccent">#FF4081</color>
     <color name="mine">#FFF</color>
 </resources>

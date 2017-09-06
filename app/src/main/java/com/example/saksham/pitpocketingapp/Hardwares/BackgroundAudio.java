@@ -5,6 +5,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.util.Log;
 
+import com.example.saksham.pitpocketingapp.Constants;
 import com.example.saksham.pitpocketingapp.R;
 
 /**
@@ -29,18 +30,19 @@ public class BackgroundAudio {
 
     public void startAudio() {
 
+        int currVolume = Constants.SharedPrefsConstants.getValue("audioVolume", context);
 
+        am.setStreamVolume(AudioManager.STREAM_MUSIC,
+                //am.getStreamMaxVolume(AudioManager.STREAM_MUSIC) + 5, //will not set when earphone is plugged IN
+                getVolume(currVolume),
+                1);
 
-            am.setStreamVolume(AudioManager.STREAM_MUSIC,
-                    3, //am.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
-                    1);
-
-            Log.d(TAG, "startAudio: else playing media player");
-
-            mp.start();
-            isInitialise = true;
+        Log.d(TAG, "startAudio: "+currVolume+context);
+        mp.start();
+        isInitialise = true;
 
     }
+
 
     public void stopAudio() {
 
@@ -60,5 +62,12 @@ public class BackgroundAudio {
         mp.release();
 
     }
+
+    //convert volume in percentage to integer (1-15)
+    private int getVolume(int currVolume) {
+
+        return ((currVolume * 15)/100) ;
+    }
+
 
 }

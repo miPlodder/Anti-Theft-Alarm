@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 
 import com.example.saksham.pitpocketingapp.R;
 
+//this class will help to bind the xml layout to our activity as fragment
+//just like FRAGMENTS work in ANDROID
 public class SettingsFragment extends PreferenceFragment {
 
     @Override

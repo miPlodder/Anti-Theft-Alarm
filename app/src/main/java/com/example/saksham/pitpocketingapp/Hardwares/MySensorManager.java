@@ -34,7 +34,6 @@ public class MySensorManager {
 
     public void startProximity() {
 
-        Log.d(TAG, "startProximity: ");
         proximty = sm.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         psel = new SensorEventListener() {
 
@@ -42,7 +41,7 @@ public class MySensorManager {
             public void onSensorChanged(SensorEvent event) {
 
                 if (event.values[0] == 0) {
-                    Log.d(TAG, "onSensorChanged: 0");
+                    Log.d(TAG, "onSensorChanged: 0"+", device ACTIVE");
                 } else
                     onWakeUp.setOnWakeUp();
             }

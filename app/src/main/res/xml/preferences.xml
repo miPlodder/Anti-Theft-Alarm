@@ -12,19 +12,36 @@
     <ListPreference
         android:defaultValue="3"
         android:dialogTitle="Audio Volume"
-        android:entries="@array/volumeArrayIndex"
+        android:entries="@array/volumeIndex"
         android:entryValues="@array/volumeArray"
         android:key="audioVolume"
         android:summary="@string/audio_vol"
         android:title="Audio Volume" />
+    <!--
+         used to select music from device
+
+         <RingtonePreference
+         android:title="fd"
+         android:persistent="true"
+         />
+     -->
 
     <ListPreference
         android:defaultValue="15"
         android:dialogTitle="Wake Up Time"
         android:entries="@array/wakeTimeIndex"
-        android:entryValues="@array/wakeTimeArray"
+        android:entryValues="@array/wakeTimeValue"
         android:key="wakeTime"
         android:summary="@string/wake_up_timer"
-        android:title="Wake Up Time"/>
+        android:title="Wake Up Time" />
+
+    <ListPreference
+        android:defaultValue="15"
+        android:dialogTitle="Sleep Time"
+        android:entries="@array/sleep_time_index"
+        android:entryValues="@array/sleep_time_value"
+        android:key="sleepTime"
+        android:summary="@string/sleep_timer"
+        android:title="Sleep Time" />
 
 </PreferenceScreen>

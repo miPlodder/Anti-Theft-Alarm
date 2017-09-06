@@ -1,26 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string-array name="volumeIndex">
+
+        <item>25%</item>
+        <item>50%</item>
+        <item>75%</item>
+        <item>100%</item>
+
+    </string-array>
+
     <string-array name="volumeArray">
 
-        <item>3</item>
-        <item>6</item>
-        <item>9</item>
-        <item>12</item>
-        <item>15</item>
+        <item>25</item>
+        <item>50</item>
+        <item>75</item>
+        <item>100</item>
 
     </string-array>
 
-    <string-array name="volumeArrayIndex">
+    <string-array name="wakeTimeIndex">
 
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
+        <item>15 seconds</item>
+        <item>30 seconds</item>
+        <item>45 seconds</item>
+        <item>60 seconds</item>
+
     </string-array>
 
-    <string-array name="wakeTimeArray">
+    <string-array name="wakeTimeValue">
 
         <item>15</item>
         <item>30</item>
@@ -29,11 +37,22 @@
 
     </string-array>
 
-    <string-array name="wakeTimeIndex">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
+    <string-array name="sleep_time_index">
+
+        <item>15 seconds</item>
+        <item>30 seconds</item>
+        <item>45 seconds</item>
+        <item>60 seconds</item>
+
+    </string-array>
+
+    <string-array name="sleep_time_value">
+
+        <item>15</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+
     </string-array>
 
 </resources>
