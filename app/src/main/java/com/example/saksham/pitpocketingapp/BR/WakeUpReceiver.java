@@ -89,7 +89,10 @@ public class WakeUpReceiver extends BroadcastReceiver {
 
             nSecThread.start();
 
-            //TODO work here on sensor manager waittime -> infinity
+            //TODO work here on sensor manager WAITTIME -> INFINITY
+            /*
+                No requirement to start proximity
+             */
             if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
 
                 Log.d(TAG, "onReceive: Screen Off");

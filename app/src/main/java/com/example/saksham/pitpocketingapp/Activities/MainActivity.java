@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                 PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "tag");
                 wl.acquire();
                 wl.release();
-                //turning off proximity
+                //turning off proximity sensor
                 proximitySensor.stopProximity();
 
             }

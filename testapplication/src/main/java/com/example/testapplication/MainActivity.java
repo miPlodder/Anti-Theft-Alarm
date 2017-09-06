@@ -14,23 +14,5 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new CountDownTimer(15000, 1000) {
-
-            int counter = 0 ;
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-                Log.d(TAG, "onTick: "+millisUntilFinished);
-                counter++;
-            }
-
-            @Override
-            public void onFinish() {
-
-                Log.d(TAG, "onFinish: "+counter);
-
-            }
-        }.start();
-
     }
 }
