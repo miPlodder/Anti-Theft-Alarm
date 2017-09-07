@@ -3,11 +3,11 @@
 
     <!--deviceAdmin on off, wakeup time, voice volume-->
 
-    <SwitchPreference
+  <!--  <SwitchPreference
         android:defaultValue="false"
         android:key="deviceAdmin"
         android:summary="@string/device_admin"
-        android:title="Device Admin Mode" />
+        android:title="Device Admin Mode" />-->
 
     <ListPreference
         android:defaultValue="3"

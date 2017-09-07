@@ -22,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
                 /*.withHeaderText("Header")*/
                 /*.withFooterText("Copyright 2017")*/
                 /*.withBeforeLogoText("My cool company")*/
-                .withLogo(R.drawable.logo)
+                //.withLogo(R.drawable.logo)
                 /*.withAfterLogoText("Some more details")*/
                 .create();
 
