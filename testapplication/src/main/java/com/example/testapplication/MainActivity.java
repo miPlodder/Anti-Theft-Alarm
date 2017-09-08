@@ -1,40 +1,34 @@
 package com.example.testapplication;
 
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.os.CountDownTimer;
-import android.preference.PreferenceActivity;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG, "onCreate: ");
         //finish();
-
-        SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
-
-        SensorEventListener sel = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent event) {
-                Log.d(TAG, "onSensorChanged: "+event.values[0]);
-
-            }
-
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-            }
-        };
-        Sensor sensor = sm.getDefaultSensor(Sensor.TYPE_LIGHT);
-        sm.registerListener(sel,sensor,1000);
+        Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent, 0);
+        try {
+            pendingIntent.send();
+        } catch (PendingIntent.CanceledException e) {
+            Log.d(TAG, "inside catch");
+        }
+        /*PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                "MyWakelockTag");
+        wakeLock.acquire();
+        Log.d(TAG, "acquiring the lock ");*/
 
     }
 }

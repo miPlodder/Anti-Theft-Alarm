@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Alert Me</string>
+    <string name="app_name">Pocket Safe</string>
     <string name="device_admin">Turn On Device Admin Mode for this Application (It\'s required to turn off the device)</string>
     <string name="wake_up_timer">Time after which device wakes up (It\'s recommended to not to keep it large)</string>
     <string name="sleep_timer">Time after which your devices locks after Timer has started.</string>

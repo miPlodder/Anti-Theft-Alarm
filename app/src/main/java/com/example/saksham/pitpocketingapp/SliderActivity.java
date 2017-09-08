@@ -38,7 +38,7 @@ public class SliderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_slider);
 
         //this will check when application is launched for the first time or not
-        launchHomeScreen();
+        //launchHomeScreen();
 
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {

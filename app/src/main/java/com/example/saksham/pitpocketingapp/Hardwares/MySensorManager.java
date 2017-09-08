@@ -38,7 +38,7 @@ public class MySensorManager {
     public void startProximity(final PowerManager.WakeLock wl) {
 
         proximty = sm.getDefaultSensor(Sensor.TYPE_LIGHT);
-        wl.release();
+
         if (wl.isHeld()) {
             Log.d(TAG, "startProximity: held");
         } else {
@@ -56,6 +56,7 @@ public class MySensorManager {
                     Log.d(TAG, "onSensorChanged: 0" + ", device INACTIVE");
                 } else {
                     //TODO wake the device up
+                    wl.release();
                     Log.d(TAG, "onSensorChanged: 6" + ", device ACTIVE");
                     onWakeUp.setOnWakeUp();
                     if (wl.isHeld()) {
