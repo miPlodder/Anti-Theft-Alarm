@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         /*camera = android.hardware.Camera.open();
         params = camera.getParameters();*/
 
+        //to keep the CPU Awake for longer duration of Time
         pm = (PowerManager) getSystemService(POWER_SERVICE);
         //wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "tag");
         wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "tag");
@@ -141,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         Log.d(TAG, "onCreate: " + Constants.HELP);
+
         //registering the broadcast receiver here
         i.addAction(Intent.ACTION_SCREEN_OFF);
         i.addAction(Intent.ACTION_SCREEN_ON);
@@ -177,11 +179,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //releaing the Wake Up lock
-                wl.release();
+
+
+
                 edv.setProgress(0);
-                cdt.cancel();
-                cdt.onFinish();
+                if (cdt != null) {
+                    cdt.cancel();
+                    cdt.onFinish();
+                }
+
+                if (wl.isHeld()) {
+                    //releaing the Wake Up lock
+                    wl.release();
+                }
+
                 edv.setVisibility(View.GONE);
                 tvHelp.setVisibility(View.VISIBLE);
 

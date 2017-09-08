@@ -21,6 +21,7 @@ public class MySensorManager {
     SensorEventListener psel;
     public static final String TAG = "MySensorManager";
     onWakeUp onWakeUp;
+    PowerManager.WakeLock wl;
 
     public interface onWakeUp {
 
@@ -34,22 +35,35 @@ public class MySensorManager {
         this.onWakeUp = onWakeUp;
     }
 
-    public void startProximity(PowerManager.WakeLock wakeLock) {
+    public void startProximity(final PowerManager.WakeLock wl) {
 
-        proximty = sm.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-        //wakeLock.acquire();
+        proximty = sm.getDefaultSensor(Sensor.TYPE_LIGHT);
+        wl.release();
+        if (wl.isHeld()) {
+            Log.d(TAG, "startProximity: held");
+        } else {
+            Log.d(TAG, "startProximity: not held");
+        }
+
 
         psel = new SensorEventListener() {
 
             @Override
             public void onSensorChanged(SensorEvent event) {
 
+
                 if (event.values[0] == 0) {
-                    Log.d(TAG, "onSensorChanged: 0"+", device INACTIVE");
+                    Log.d(TAG, "onSensorChanged: 0" + ", device INACTIVE");
                 } else {
                     //TODO wake the device up
-                    Log.d(TAG, "onSensorChanged: 6"+", device ACTIVE");
+                    Log.d(TAG, "onSensorChanged: 6" + ", device ACTIVE");
                     onWakeUp.setOnWakeUp();
+                    if (wl.isHeld()) {
+                        Log.d(TAG, "startProximity: held");
+                    } else {
+                        Log.d(TAG, "startProximity: not held");
+                    }
+
                 }
             }
 
@@ -59,13 +73,14 @@ public class MySensorManager {
                 //do nothing here
             }
         };
-
+        Log.d(TAG, "registering the proximity sensor");
         sm.registerListener(psel, proximty, 1000);
 
     }
 
     public void stopProximity() {
 
+        Log.d(TAG, "unregistering the proximity sensor: ");
         sm.unregisterListener(psel, proximty);
     }
 
