@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -53,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
     CountDownTimer cdt;
     int currSleepTime = 0;
 
+    PowerManager pm;
+    PowerManager.WakeLock wl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -61,11 +65,15 @@ public class MainActivity extends AppCompatActivity {
         /*camera = android.hardware.Camera.open();
         params = camera.getParameters();*/
 
+        pm = (PowerManager) getSystemService(POWER_SERVICE);
+        wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "tag");
+
+
         //not needed in newer device, but is recommended to use as per Android Documentation
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         Context context = this;
-        Log.d(TAG, "onCreate: " + sharedPreferences.getString("audioVolume", "3")+context);
+        Log.d(TAG, "onCreate: " + sharedPreferences.getString("audioVolume", "3") + context);
         Log.d(TAG, "onCreate: " + sharedPreferences.getString("wakeTime", "3"));
 
         i = new IntentFilter();
@@ -74,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         btnStop = (Button) findViewById(R.id.btnStop);
         edv = (ElasticDownloadView) findViewById(R.id.edv);
 
-        currSleepTime = (Constants.SharedPrefsConstants.getValue("sleepTime", this)*1000);
+        currSleepTime = (Constants.SharedPrefsConstants.getValue("sleepTime", this) * 1000);
         Log.d(TAG, "onCreate: " + currSleepTime);
         cdt = new CountDownTimer(currSleepTime, 1000) {
 
@@ -84,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
 
                 timeSoFar += 1000;
-                float result = Float.parseFloat(Integer.toString(((int) (timeSoFar * 100)/currSleepTime)));
+                float result = Float.parseFloat(Integer.toString(((int) (timeSoFar * 100) / currSleepTime)));
                 //Log.d(TAG, "onTick: " + result);
                 if (result > 100) {
                 } else
@@ -178,18 +186,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         proximitySensor = new MySensorManager(MainActivity.this, new MySensorManager.onWakeUp() {
+
             @Override
             public void setOnWakeUp() {
 
-                //TODO screen turn on work to be done here
-                Log.d(TAG, "setOnWakeUp: SCREEN WAKEUP");
-                PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
-                PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "tag");
+                //TODO screen turn on work to be done here HACK TO WORK ON
                 wl.acquire();
                 wl.release();
+
                 //turning off proximity sensor
+                Log.d(TAG, "setOnWakeUp: turning on the screen");
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
                 proximitySensor.stopProximity();
 
             }
@@ -224,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Not Registered as admin", Toast.LENGTH_SHORT).show();
                 }
 
-                proximitySensor.startProximity();
+                proximitySensor.startProximity(wl);
                 Log.d(TAG, "onFinish: ");
 
             }

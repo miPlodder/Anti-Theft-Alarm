@@ -5,7 +5,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.PowerManager;
 import android.util.Log;
+import android.view.WindowManager;
 
 /**
  * Created by saksham on 8/24/2017.
@@ -32,18 +34,23 @@ public class MySensorManager {
         this.onWakeUp = onWakeUp;
     }
 
-    public void startProximity() {
+    public void startProximity(PowerManager.WakeLock wakeLock) {
 
         proximty = sm.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        //wakeLock.acquire();
+
         psel = new SensorEventListener() {
 
             @Override
             public void onSensorChanged(SensorEvent event) {
 
                 if (event.values[0] == 0) {
-                    Log.d(TAG, "onSensorChanged: 0"+", device ACTIVE");
-                } else
+                    Log.d(TAG, "onSensorChanged: 0"+", device INACTIVE");
+                } else {
+                    //TODO wake the device up
+                    Log.d(TAG, "onSensorChanged: 6"+", device ACTIVE");
                     onWakeUp.setOnWakeUp();
+                }
             }
 
             @Override
