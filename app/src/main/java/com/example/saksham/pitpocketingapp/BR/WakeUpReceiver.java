@@ -48,7 +48,7 @@ public class WakeUpReceiver extends BroadcastReceiver {
                 nSecThread.interrupt();
             }
 
-            Toast.makeText(context, "Welcome user", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "\t\t\t\t\t\tWELCOME USER \nClick STOP button to stop the ALARM", Toast.LENGTH_SHORT).show();
         }
 
         //TODO check for proximity sensor

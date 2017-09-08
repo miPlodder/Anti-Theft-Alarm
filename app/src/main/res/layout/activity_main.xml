@@ -6,34 +6,50 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_demo"
     android:orientation="vertical"
-    android:weightSum="8"
+    android:weightSum="10"
     tools:context="com.example.saksham.pitpocketingapp.Activities.MainActivity">
 
+    <!--intially -->
     <is.arontibo.library.ElasticDownloadView
         android:id="@+id/edv"
         android:layout_width="match_parent"
-        android:foregroundGravity="center"
         android:layout_height="0dp"
+        android:layout_weight="7.5"
+        android:foregroundGravity="center"
         android:padding="20dp"
-        android:layout_weight="4"/>
-    <View
-        android:layout_weight="2"
+        android:visibility="gone" />
+
+    <TextView
+
+        android:layout_margin="15dp"
+        android:id="@+id/tvHelp"
+        android:layout_weight="7.5"
         android:layout_width="match_parent"
-        android:layout_height="0dp"/>
+        android:layout_height="0dp"
+        android:textStyle="bold"
+        android:background="@drawable/border_textview"
+        android:foregroundGravity="center"
+        android:padding="20dp"
+        android:textSize="12sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5" />
 
     <Button
         android:id="@+id/btnStart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="Start"
         android:layout_weight="1"
+        android:text="Start"
         android:textColor="#FFF" />
 
     <Button
         android:id="@+id/btnStop"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="Stop"
         android:layout_weight="1"
+        android:text="Stop"
         android:textColor="#FFF" />
 </LinearLayout>

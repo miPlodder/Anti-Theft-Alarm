@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.saksham.pitpocketingapp.Constants;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     ElasticDownloadView edv;
     CountDownTimer cdt;
     int currSleepTime = 0;
+    TextView tvHelp;
 
     PowerManager pm;
     PowerManager.WakeLock wl;
@@ -66,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
         params = camera.getParameters();*/
 
         pm = (PowerManager) getSystemService(POWER_SERVICE);
-        wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "tag");
-
+        //wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "tag");
+        wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "tag");
 
         //not needed in newer device, but is recommended to use as per Android Documentation
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
@@ -81,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
         btnStart = (Button) findViewById(R.id.btnStart);
         btnStop = (Button) findViewById(R.id.btnStop);
         edv = (ElasticDownloadView) findViewById(R.id.edv);
+        tvHelp = (TextView) findViewById(R.id.tvHelp);
+
+        tvHelp.setText(Constants.HELP);
+
 
         currSleepTime = (Constants.SharedPrefsConstants.getValue("sleepTime", this) * 1000);
         Log.d(TAG, "onCreate: " + currSleepTime);
@@ -110,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
-        edv.setVisibility(View.INVISIBLE);
+        //edv.setVisibility(View.INVISIBLE);
         edv.startIntro();
 
         backgroundAudio = new BackgroundAudio(MainActivity.this);
@@ -134,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
+        Log.d(TAG, "onCreate: " + Constants.HELP);
         //registering the broadcast receiver here
         i.addAction(Intent.ACTION_SCREEN_OFF);
         i.addAction(Intent.ACTION_SCREEN_ON);
@@ -149,12 +155,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                //preventing the CPU from turning off
+                wl.acquire();
+
                 //changing states of hardware here
                 edv.setVisibility(View.VISIBLE);
+                tvHelp.setVisibility(View.GONE);
                 cdt.start();
                 flashlight.isInitialise = true;
                 backgroundAudio.isInitialise = true;
-                Toast.makeText(MainActivity.this, "Lock your phone in 5 seconds ", Toast.LENGTH_SHORT).show();
+                int timeToSleep = Constants.SharedPrefsConstants.getValue("sleepTime", MainActivity.this);
+                Toast.makeText(MainActivity.this, "Lock your phone in " + timeToSleep + " seconds", Toast.LENGTH_SHORT).show();
                 waitTime.start();
                 //pending work here //todo
 
@@ -166,9 +177,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                //releaing the Wake Up lock
+                wl.release();
                 edv.setProgress(0);
                 cdt.cancel();
-                edv.setVisibility(View.INVISIBLE);
+                cdt.onFinish();
+                edv.setVisibility(View.GONE);
+                tvHelp.setVisibility(View.VISIBLE);
 
                 if (flashlight.isInitialise && backgroundAudio.isInitialise) {
 
@@ -192,13 +207,17 @@ public class MainActivity extends AppCompatActivity {
             public void setOnWakeUp() {
 
                 //TODO screen turn on work to be done here HACK TO WORK ON
-                wl.acquire();
-                wl.release();
 
                 //turning off proximity sensor
                 Log.d(TAG, "setOnWakeUp: turning on the screen");
                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
                 proximitySensor.stopProximity();
+
+                //turning screen ON
+                PowerManager.WakeLock screenLock = ((PowerManager) getSystemService(POWER_SERVICE)).newWakeLock(
+                        PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
+                screenLock.acquire();
+                screenLock.release();
 
             }
         });
@@ -258,10 +277,10 @@ public class MainActivity extends AppCompatActivity {
                         SettingActivity.class
                 ));
                 break;
-            case R.id.About:
+            /*case R.id.About:
                 break;
             case R.id.feedback:
-                break;
+                break;*/
 
         }
         return super.onOptionsItemSelected(item);

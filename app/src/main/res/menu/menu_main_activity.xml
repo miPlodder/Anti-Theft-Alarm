@@ -8,12 +8,13 @@
         android:icon="@drawable/ic_settings"
         android:title="Settings" />
 
-    <item
+    <!--<item
         android:id="@+id/feedback"
         android:title="Feedback"/>
-
+    -->
+<!--
     <item
         android:id="@+id/About"
-        android:title="About Developer"/>
+        android:title="About Developer"/>-->
 
 </menu>

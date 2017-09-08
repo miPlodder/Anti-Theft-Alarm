@@ -8,6 +8,11 @@
     android:orientation="horizontal"
     tools:context="com.example.testapplication.MainActivity">
 
-
+    <TextView
+        android:text="HELLO WORLD WITH BORDER"
+       android:background="@drawable/drawable"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="match_parent" />
 
 </LinearLayout>
